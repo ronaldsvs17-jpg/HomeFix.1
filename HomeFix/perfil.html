@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeFix - Mi Perfil</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+:root{
+--verde:#1D9E75;
+--verdeOscuro:#0F6E56;
+--fondo:#F4F5F7;
+--blanco:#fff;
+--gris:#6B7280;
+}
+
+body{
+background:var(--fondo);
+}
+
+.header{
+height:70px;
+background:white;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 30px;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:var(--verde);
+}
+
+.btn-dashboard{
+background:var(--verde);
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.container{
+max-width:1200px;
+margin:30px auto;
+padding:20px;
+}
+
+.profile-card{
+background:white;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.banner{
+height:220px;
+background:linear-gradient(135deg,#1D9E75,#0F6E56);
+position:relative;
+}
+
+.avatar{
+position:absolute;
+bottom:-60px;
+left:50px;
+width:120px;
+height:120px;
+border-radius:50%;
+background:white;
+border:5px solid white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:50px;
+color:var(--verde);
+}
+
+.info{
+padding:90px 50px 30px;
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+}
+
+.name{
+font-size:32px;
+font-weight:700;
+}
+
+.role{
+color:var(--gris);
+margin-top:5px;
+}
+
+.edit-btn{
+background:var(--verde);
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+padding:30px;
+}
+
+.stat{
+background:#f8f8f8;
+padding:20px;
+border-radius:15px;
+text-align:center;
+}
+
+.stat h2{
+color:var(--verde);
+font-size:28px;
+}
+
+.stat p{
+color:gray;
+margin-top:5px;
+}
+
+.sections{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+padding:0 30px 30px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+.card h3{
+margin-bottom:15px;
+color:var(--verdeOscuro);
+}
+
+.skill{
+background:#e8f8f1;
+padding:10px 15px;
+display:inline-block;
+border-radius:30px;
+margin:5px;
+color:var(--verdeOscuro);
+font-weight:600;
+}
+
+.review{
+padding:15px;
+background:#f8f8f8;
+border-radius:10px;
+margin-top:10px;
+}
+
+.review strong{
+color:var(--verde);
+}
+
+@media(max-width:768px){
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+.sections{
+grid-template-columns:1fr;
+}
+
+.avatar{
+left:50%;
+transform:translateX(-50%);
+}
+
+.info{
+text-align:center;
+justify-content:center;
+gap:20px;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<header class="header">
+<div class="logo">🏠 HomeFix</div>
+
+<button class="btn-dashboard" onclick="window.location.href='perfil1.html'">
+Volver al Dashboard
+</button>
+</header>
+
+<div class="container">
+
+<div class="profile-card">
+
+<div class="banner">
+<div class="avatar">
+<i class="ti ti-user"></i>
+</div>
+</div>
+
+<div class="info">
+
+<div>
+<h1 class="name" id="nombreUsuario">Juan Díaz</h1>
+<p class="role">Plomero • Electricista • Pintor</p>
+</div>
+
+<button class="edit-btn" onclick="editarPerfil()">
+Editar Perfil
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<h2>18</h2>
+<p>Trabajos realizados</p>
+</div>
+
+<div class="stat">
+<h2>4.9</h2>
+<p>Calificación</p>
+</div>
+
+<div class="stat">
+<h2>24</h2>
+<p>Clientes</p>
+</div>
+
+<div class="stat">
+<h2>$1.2M</h2>
+<p>Ganancias</p>
+</div>
+
+</div>
+
+<div class="sections">
+
+<div class="card">
+
+<h3>Sobre mí</h3>
+
+<p>
+Profesional con experiencia en plomería, pintura,
+electricidad y mantenimiento general para hogares.
+Responsable, puntual y comprometido con la calidad.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Habilidades</h3>
+
+<div class="skill">Plomería</div>
+<div class="skill">Electricidad</div>
+<div class="skill">Pintura</div>
+<div class="skill">Instalaciones</div>
+<div class="skill">Mantenimiento</div>
+
+</div>
+
+<div class="card">
+
+<h3>Información de contacto</h3>
+
+<p><i class="ti ti-mail"></i> juan@email.com</p>
+<br>
+<p><i class="ti ti-phone"></i> +57 300 123 4567</p>
+<br>
+<p><i class="ti ti-map-pin"></i> Bogotá, Colombia</p>
+
+</div>
+
+<div class="card">
+
+<h3>Últimas calificaciones</h3>
+
+<div class="review">
+<strong>Ana López ⭐⭐⭐⭐⭐</strong>
+<p>Excelente servicio y puntualidad.</p>
+</div>
+
+<div class="review">
+<strong>Mario Ruiz ⭐⭐⭐⭐⭐</strong>
+<p>Trabajo impecable y muy profesional.</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function editarPerfil(){
+
+let nuevoNombre = prompt("Ingresa tu nombre:");
+
+if(nuevoNombre){
+document.getElementById("nombreUsuario").textContent = nuevoNombre;
+}
+
+}
+
+</script>
+
+</body>
+</html>

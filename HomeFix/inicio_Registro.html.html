@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeFix — Acceder</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green-50: #E1F5EE; --green-100: #9FE1CB; --green-400: #1D9E75;
+    --green-600: #0F6E56; --green-800: #085041; --green-900: #04342C;
+    --red-400: #E24B4A; --amber-400: #EF9F27;
+    --bg: #F4F5F7; --bg-card: #ffffff; --bg-secondary: #F0F1F3;
+    --text: #1a1a1a; --text-sec: #6B7280; --text-hint: #9CA3AF;
+    --border: rgba(0,0,0,0.1); --border-med: rgba(0,0,0,0.18);
+    --radius: 8px; --radius-lg: 12px; --radius-xl: 16px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow: hidden;
+
+    /* Fondo degradado elegante */
+    background:
+        radial-gradient(circle at top left, rgba(29,158,117,0.20), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(15,110,86,0.25), transparent 40%),
+        linear-gradient(135deg, #f7faf9 0%, #eef5f3 45%, #e5f0ec 100%);
+}
+
+/* Efecto decorativo */
+body::before {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 50%;
+    top: -150px;
+    left: -150px;
+    filter: blur(80px);
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    background: rgba(8,80,65,0.08);
+    border-radius: 50%;
+    bottom: -120px;
+    right: -120px;
+    filter: blur(80px);
+    z-index: -1;
+}
+
+  .card {
+    display: flex;
+    width: 100%;
+    max-width: 860px;
+    min-height: 600px;
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  /* Left panel */
+  .left {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--green-800);
+    display: flex;
+    flex-direction: column;
+    padding: 32px 22px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 36px;
+    text-decoration: none;
+  }
+  .brand-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--green-400);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 20px;
+  }
+  .brand-name { font-size: 17px; font-weight: 600; color: var(--green-50); }
+  .feature { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+  .feat-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--green-600);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--green-100); font-size: 16px; flex-shrink: 0;
+  }
+  .feat-body { }
+  .feat-title { font-size: 13px; font-weight: 600; color: var(--green-50); margin-bottom: 2px; }
+  .feat-desc { font-size: 11px; color: var(--green-100); line-height: 1.5; }
+  .left-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--green-600);
+    font-size: 11px;
+    color: #5DCAA5;
+    line-height: 1.6;
+  }
+
+  /* Right panel */
+  .right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 36px 36px 28px;
+    overflow-y: auto;
+  }
+
+  /* Tab switcher */
+  .tab-row { display: flex; justify-content: flex-end; margin-bottom: 32px; }
+  .tab-switch { display: flex; background: var(--bg-secondary); border-radius: var(--radius); padding: 3px; gap: 2px; }
+  .auth-tab {
+    padding: 7px 20px; border-radius: 6px; font-size: 13px; cursor: pointer;
+    color: var(--text-sec); background: transparent; border: none; font-family: inherit;
+    transition: background .15s;
+  }
+  .auth-tab.active {
+    background: var(--bg-card); color: var(--text);
+    font-weight: 500; border: 1px solid var(--border);
+  }
+
+  /* Sections */
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  /* Typography */
+  .form-heading { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .form-sub { font-size: 13px; color: var(--text-sec); margin-bottom: 26px; line-height: 1.5; }
+
+  /* Fields */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 500; color: var(--text-sec); margin-bottom: 5px; }
+  .field-wrap {
+    display: flex; align-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    overflow: hidden;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .field-wrap:focus-within {
+    border-color: var(--green-400);
+    box-shadow: 0 0 0 3px rgba(29,158,117,.12);
+  }
+  .field-icon { padding: 0 10px; color: var(--text-hint); font-size: 16px; display: flex; align-items: center; }
+  .field-wrap input {
+    flex: 1; border: none; outline: none; background: transparent;
+    font-size: 13px; color: var(--text); padding: 10px 10px 10px 0; font-family: inherit;
+  }
+  .field-wrap input::placeholder { color: var(--text-hint); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .eye-btn {
+    padding: 0 10px; cursor: pointer; color: var(--text-hint);
+    font-size: 16px; background: none; border: none;
+    display: flex; align-items: center; transition: color .15s;
+  }
+  .eye-btn:hover { color: var(--text-sec); }
+
+  /* Password strength */
+  .strength { display: flex; align-items: center; gap: 4px; margin-top: 6px; }
+  .strength-bar { height: 3px; flex: 1; border-radius: 2px; background: var(--border); transition: background .2s; }
+  .strength-label { font-size: 11px; color: var(--text-hint); min-width: 44px; }
+
+  /* Role cards */
+  .role-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+  .role-card {
+    border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 14px; cursor: pointer; text-align: center;
+    transition: border-color .15s, background .15s;
+  }
+  .role-card:hover { border-color: var(--border-med); }
+  .role-card.selected { border-color: var(--green-400); background: var(--green-50); }
+  .role-card.selected .role-label { color: var(--green-800); }
+  .role-card.selected .role-icon { color: var(--green-400); }
+  .role-icon { font-size: 24px; color: var(--text-hint); margin-bottom: 6px; }
+  .role-label { font-size: 13px; font-weight: 600; color: var(--text-sec); }
+  .role-desc { font-size: 11px; color: var(--text-hint); margin-top: 3px; line-height: 1.4; }
+
+  /* Buttons */
+  .btn-main {
+    width: 100%; padding: 11px; border-radius: var(--radius);
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    border: none; background: var(--green-400); color: #fff;
+    font-family: inherit; transition: background .15s;
+  }
+  .btn-main:hover { background: var(--green-600); }
+  .btn-main:active { transform: scale(.99); }
+  .btn-back {
+    background: var(--bg-secondary); color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-back:hover { background: var(--bg); }
+  .btn-row { display: flex; gap: 10px; margin-top: 6px; }
+
+
+
+  /* Forgot */
+  .forgot { text-align: right; margin-top: -8px; margin-bottom: 16px; }
+  .forgot a { font-size: 12px; color: var(--green-400); cursor: pointer; text-decoration: none; }
+  .forgot a:hover { color: var(--green-600); text-decoration: underline; }
+
+  /* Messages */
+  .msg {
+    padding: 10px 13px; border-radius: var(--radius);
+    font-size: 12px; line-height: 1.5; margin-bottom: 14px; display: none;
+  }
+  .msg.success { background: var(--green-50); color: var(--green-800); border: 1px solid var(--green-100); }
+  .msg.error { background: #FCEBEB; color: #791F1F; border: 1px solid #F09595; }
+
+  /* Step dots */
+  .step-dots { display: flex; gap: 6px; margin-bottom: 20px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); transition: all .2s; }
+  .dot.active { background: var(--green-400); width: 20px; border-radius: 4px; }
+
+  /* Success screen */
+  .success-screen { text-align: center; padding: 20px 0; }
+  .success-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--green-50); color: var(--green-400);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; margin: 0 auto 18px;
+  }
+
+  /* Terms */
+  .terms { font-size: 11px; color: var(--text-hint); line-height: 1.6; margin-top: 14px; text-align: center; }
+  .terms a { color: var(--green-400); text-decoration: none; cursor: pointer; }
+  .terms a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .left { display: none; }
+    .right { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Left panel -->
+  <div class="left">
+    <a class="brand" href="#">
+      <div class="brand-icon"><i class="ti ti-home-2"></i></div>
+      <span class="brand-name">HomeFix</span>
+    </a>
+    <div class="feature">
+      <div class="feat-icon"><i class="ti ti-briefcase"></i></div>
+      <div class="feat-body">
+        <div class="feat-title">Encuentra trabajo</div>
+        <div class="feat-desc">Conecta con empleadores cerca de ti en minutos.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feat-icon"><i class="ti ti-calendar"></i></div>
+      <div class="feat-body">
+        <div class="feat-title">Gestiona tu agenda</div>
+        <div class="feat-desc">Organiza tus citas y trabajos en un solo lugar.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feat-icon"><i class="ti ti-star"></i></div>
+      <div class="feat-body">
+        <div class="feat-title">Construye reputación</div>
+        <div class="feat-desc">Recibe calificaciones y destaca en tu zona.</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feat-icon"><i class="ti ti-shield-check"></i></div>
+      <div class="feat-body">
+        <div class="feat-title">Pagos seguros</div>
+        <div class="feat-desc">Transacciones protegidas en cada trabajo.</div>
+      </div>
+    </div>
+    <div class="left-footer">
+      Más de 12,000 profesionales confían en HomeFix cada mes.
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="right">
+    <div class="tab-row">
+      <div class="tab-switch">
+        <button class="auth-tab active" id="tabLogin" onclick="showSection('login')">Iniciar sesión</button>
+        <button class="auth-tab" id="tabReg" onclick="showSection('register')">Registrarse</button>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginSection" class="section visible">
+      <div class="form-heading">Inicia sesión</div>
+      <div class="form-sub">Ingresa tus credenciales para acceder a tu cuenta.</div>
+      <div id="loginMsg" class="msg"></div>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <div class="field-wrap">
+          <span class="field-icon"><i class="ti ti-mail"></i></span>
+          <input type="email" id="loginEmail" placeholder="tu@correo.com">
+        </div>
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <div class="field-wrap">
+          <span class="field-icon"><i class="ti ti-lock"></i></span>
+          <input type="password" id="loginPwd" placeholder="••••••••">
+          <button class="eye-btn" onclick="togglePwd('loginPwd', this)" type="button" aria-label="Mostrar contraseña">
+            <i class="ti ti-eye"></i>
+          </button>
+        </div>
+      </div>
+      <div class="forgot"><a onclick="forgotPwd()">¿Olvidaste tu contraseña?</a></div>
+      <button class="btn-main" onclick="doLogin()">Entrar a mi cuenta</button>
+
+      <p class="terms">Al ingresar, aceptas nuestros <a>Términos de servicio</a> y <a>Política de privacidad</a>.</p>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="registerSection" class="section">
+
+      <!-- Paso 1: Rol -->
+      <div id="step1">
+        <div class="step-dots">
+          <div class="dot active" id="d1"></div>
+          <div class="dot" id="d2"></div>
+          <div class="dot" id="d3"></div>
+        </div>
+        <div class="form-heading">Crea tu cuenta</div>
+        <div class="form-sub">Paso 1 de 3 — ¿Cómo quieres usar HomeFix?</div>
+        <div class="role-row">
+          <div class="role-card selected" id="roleWorker" onclick="selectRole('worker')">
+            <div class="role-icon"><i class="ti ti-tools"></i></div>
+            <div class="role-label">Trabajador</div>
+            <div class="role-desc">Ofrezco servicios para el hogar</div>
+          </div>
+          <div class="role-card" id="roleEmployer" onclick="selectRole('employer')">
+            <div class="role-icon"><i class="ti ti-building"></i></div>
+            <div class="role-label">Empleador</div>
+            <div class="role-desc">Necesito contratar servicios</div>
+          </div>
+        </div>
+        <button class="btn-main" onclick="goStep(2)">Continuar</button>
+
+      </div>
+
+      <!-- Paso 2: Datos personales -->
+      <div id="step2" style="display:none">
+        <div class="step-dots">
+          <div class="dot active" id="d1b"></div>
+          <div class="dot active" id="d2b"></div>
+          <div class="dot" id="d3b"></div>
+        </div>
+        <div class="form-heading">Tus datos</div>
+        <div class="form-sub">Paso 2 de 3 — Información personal.</div>
+        <div id="regMsg" class="msg"></div>
+        <div class="field-row">
+          <div class="field">
+            <label>Nombre</label>
+            <div class="field-wrap">
+              <span class="field-icon"><i class="ti ti-user"></i></span>
+              <input type="text" id="regNombre" placeholder="Juan">
+            </div>
+          </div>
+          <div class="field">
+            <label>Apellido</label>
+            <div class="field-wrap">
+              <span class="field-icon"><i class="ti ti-user"></i></span>
+              <input type="text" id="regApellido" placeholder="Díaz">
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Correo electrónico</label>
+          <div class="field-wrap">
+            <span class="field-icon"><i class="ti ti-mail"></i></span>
+            <input type="email" id="regEmail" placeholder="tu@correo.com">
+          </div>
+        </div>
+        <div class="field">
+          <label>Teléfono</label>
+          <div class="field-wrap">
+            <span class="field-icon"><i class="ti ti-phone"></i></span>
+            <input type="tel" id="regTel" placeholder="+57 300 000 0000">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-main btn-back" onclick="goStep(1)">Atrás</button>
+          <button class="btn-main" onclick="goStep(3)">Continuar</button>
+        </div>
+      </div>
+
+      <!-- Paso 3: Contraseña -->
+      <div id="step3" style="display:none">
+        <div class="step-dots">
+          <div class="dot active" id="d1c"></div>
+          <div class="dot active" id="d2c"></div>
+          <div class="dot active" id="d3c"></div>
+        </div>
+        <div class="form-heading">Crea tu contraseña</div>
+        <div class="form-sub">Paso 3 de 3 — Elige una contraseña segura.</div>
+        <div class="field">
+          <label>Contraseña</label>
+          <div class="field-wrap">
+            <span class="field-icon"><i class="ti ti-lock"></i></span>
+            <input type="password" id="regPwd" placeholder="Mín. 8 caracteres" oninput="checkStrength(this.value)">
+            <button class="eye-btn" onclick="togglePwd('regPwd', this)" type="button" aria-label="Mostrar">
+              <i class="ti ti-eye"></i>
+            </button>
+          </div>
+          <div class="strength" id="strengthRow" style="display:none">
+            <div class="strength-bar" id="sb1"></div>
+            <div class="strength-bar" id="sb2"></div>
+            <div class="strength-bar" id="sb3"></div>
+            <div class="strength-bar" id="sb4"></div>
+            <span class="strength-label" id="sLabel"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Confirmar contraseña</label>
+          <div class="field-wrap">
+            <span class="field-icon"><i class="ti ti-lock-check"></i></span>
+            <input type="password" id="regPwd2" placeholder="Repite la contraseña">
+            <button class="eye-btn" onclick="togglePwd('regPwd2', this)" type="button" aria-label="Mostrar">
+              <i class="ti ti-eye"></i>
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Ciudad</label>
+          <div class="field-wrap">
+            <span class="field-icon"><i class="ti ti-map-pin"></i></span>
+            <input type="text" id="regCiudad" placeholder="Bogotá">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-main btn-back" onclick="goStep(2)">Atrás</button>
+          <button class="btn-main" onclick="doRegister()">Crear cuenta</button>
+        </div>
+        <p class="terms">Al registrarte aceptas los <a>Términos de servicio</a> y la <a>Política de privacidad</a> de HomeFix.</p>
+      </div>
+
+      <!-- Paso 4: Éxito -->
+      <div id="step4" style="display:none">
+        <div class="success-screen">
+          <div class="success-icon"><i class="ti ti-circle-check"></i></div>
+          <div class="form-heading" style="text-align:center">¡Cuenta creada!</div>
+          <div class="form-sub" style="text-align:center;margin-bottom:24px">
+            Tu cuenta ha sido creada exitosamente.<br>Ya puedes empezar a usar HomeFix.
+          </div>
+          <button class="btn-main" onclick="showSection('login')">Ir a iniciar sesión</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentRole = 'worker';
+
+  function showSection(s) {
+    document.getElementById('loginSection').classList.toggle('visible', s === 'login');
+    document.getElementById('registerSection').classList.toggle('visible', s === 'register');
+    document.getElementById('tabLogin').classList.toggle('active', s === 'login');
+    document.getElementById('tabReg').classList.toggle('active', s === 'register');
+    if (s === 'register') goStep(1);
+  }
+
+  function selectRole(r) {
+    currentRole = r;
+    document.getElementById('roleWorker').classList.toggle('selected', r === 'worker');
+    document.getElementById('roleEmployer').classList.toggle('selected', r === 'employer');
+  }
+
+  function goStep(n) {
+    if (n === 3) {
+      const nombre = document.getElementById('regNombre').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const msg = document.getElementById('regMsg');
+      if (!nombre || !email) {
+        msg.textContent = 'Por favor completa nombre y correo electrónico.';
+        msg.className = 'msg error';
+        msg.style.display = 'block';
+        return;
+      }
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        msg.textContent = 'Ingresa un correo electrónico válido.';
+        msg.className = 'msg error';
+        msg.style.display = 'block';
+        return;
+      }
+      msg.style.display = 'none';
+    }
+    for (let i = 1; i <= 4; i++) {
+      const el = document.getElementById('step' + i);
+      if (el) el.style.display = 'none';
+    }
+    const target = document.getElementById('step' + n);
+    if (target) target.style.display = 'block';
+  }
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pwd = document.getElementById('loginPwd').value;
+  const msg = document.getElementById('loginMsg');
+
+  if (!email || !pwd) {
+    msg.textContent = 'Por favor completa todos los campos.';
+    msg.className = 'msg error';
+    msg.style.display = 'block';
+    return;
+  }
+
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    msg.textContent = 'Ingresa un correo electrónico válido.';
+    msg.className = 'msg error';
+    msg.style.display = 'block';
+    return;
+  }
+
+  msg.textContent = '¡Bienvenido! Redirigiendo al perfil...';
+  msg.className = 'msg success';
+  msg.style.display = 'block';
+
+  setTimeout(() => {
+    window.location.href = "perfil1.html";
+  }, 1000);
+}
+
+function doRegister() {
+  const p1 = document.getElementById('regPwd').value;
+  const p2 = document.getElementById('regPwd2').value;
+
+  if (p1.length < 8) {
+    alert('La contraseña debe tener al menos 8 caracteres.');
+    return;
+  }
+
+  if (p1 !== p2) {
+    alert('Las contraseñas no coinciden.');
+    return;
+  }
+
+  alert('¡Cuenta creada correctamente!');
+  window.location.href = "perfil1.html";
+}
+  function forgotPwd() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const msg = document.getElementById('loginMsg');
+    if (!email) {
+      msg.textContent = 'Ingresa tu correo arriba y vuelve a intentarlo.';
+      msg.className = 'msg error';
+      msg.style.display = 'block';
+      return;
+    }
+    msg.textContent = 'Te enviamos un enlace de recuperación a ' + email;
+    msg.className = 'msg success';
+    msg.style.display = 'block';
+  }
+
+  function togglePwd(id, btn) {
+    const input = document.getElementById(id);
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    btn.querySelector('i').className = show ? 'ti ti-eye-off' : 'ti ti-eye';
+  }
+
+  function checkStrength(v) {
+    const row = document.getElementById('strengthRow');
+    if (!v) { row.style.display = 'none'; return; }
+    row.style.display = 'flex';
+    let score = 0;
+    if (v.length >= 8) score++;
+    if (/[A-Z]/.test(v)) score++;
+    if (/[0-9]/.test(v)) score++;
+    if (/[^A-Za-z0-9]/.test(v)) score++;
+    const colors = ['#E24B4A', '#EF9F27', '#1D9E75', '#085041'];
+    const labels = ['Débil', 'Regular', 'Fuerte', 'Muy fuerte'];
+    for (let i = 1; i <= 4; i++) {
+      const bar = document.getElementById('sb' + i);
+      bar.style.background = i <= score ? colors[score - 1] : 'rgba(0,0,0,0.1)';
+    }
+    const label = document.getElementById('sLabel');
+    label.textContent = labels[score - 1] || '';
+    label.style.color = colors[score - 1] || 'var(--text-hint)';
+  }
+</script>
+</body>
+</html>
