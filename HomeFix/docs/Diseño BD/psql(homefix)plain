@@ -1,0 +1,885 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict 1D3cgSvYVBiQ8O0qsvEdLyDYMO9PbwnrhLJAjVnfitTGzhK9TTdaB239rmXsoWy
+
+-- Dumped from database version 18.4
+-- Dumped by pg_dump version 18.4
+
+-- Started on 2026-06-12 00:16:43
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 224 (class 1259 OID 32821)
+-- Name: administrador; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.administrador (
+    id_usuario integer NOT NULL
+);
+
+
+ALTER TABLE public.administrador OWNER TO postgres;
+
+--
+-- TOC entry 235 (class 1259 OID 32916)
+-- Name: calificacion; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.calificacion (
+    id_calificacion integer NOT NULL,
+    id_empleado integer NOT NULL,
+    puntuacion numeric(3,2),
+    comentario text,
+    fecha timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.calificacion OWNER TO postgres;
+
+--
+-- TOC entry 234 (class 1259 OID 32915)
+-- Name: calificacion_id_calificacion_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.calificacion_id_calificacion_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.calificacion_id_calificacion_seq OWNER TO postgres;
+
+--
+-- TOC entry 5131 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: calificacion_id_calificacion_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.calificacion_id_calificacion_seq OWNED BY public.calificacion.id_calificacion;
+
+
+--
+-- TOC entry 227 (class 1259 OID 32844)
+-- Name: empleado; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.empleado (
+    id_empleado integer NOT NULL,
+    id_usuario integer NOT NULL,
+    fecha_registro timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    estado_cuenta character varying(30) DEFAULT 'Activo'::character varying
+);
+
+
+ALTER TABLE public.empleado OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 32843)
+-- Name: empleado_id_empleado_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.empleado_id_empleado_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.empleado_id_empleado_seq OWNER TO postgres;
+
+--
+-- TOC entry 5132 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: empleado_id_empleado_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.empleado_id_empleado_seq OWNED BY public.empleado.id_empleado;
+
+
+--
+-- TOC entry 229 (class 1259 OID 32862)
+-- Name: empleador; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.empleador (
+    id_empleador integer NOT NULL,
+    id_usuario integer NOT NULL,
+    fecha_registro timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    estado_cuenta character varying(30) DEFAULT 'Activo'::character varying
+);
+
+
+ALTER TABLE public.empleador OWNER TO postgres;
+
+--
+-- TOC entry 228 (class 1259 OID 32861)
+-- Name: empleador_id_empleador_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.empleador_id_empleador_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.empleador_id_empleador_seq OWNER TO postgres;
+
+--
+-- TOC entry 5133 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: empleador_id_empleador_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.empleador_id_empleador_seq OWNED BY public.empleador.id_empleador;
+
+
+--
+-- TOC entry 233 (class 1259 OID 32898)
+-- Name: experiencia_laboral; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.experiencia_laboral (
+    id_experiencia integer NOT NULL,
+    id_hoja_vida integer NOT NULL,
+    empresa character varying(150) NOT NULL,
+    cargo character varying(100) NOT NULL,
+    fecha_inicio date,
+    fecha_fin date,
+    descripcion text
+);
+
+
+ALTER TABLE public.experiencia_laboral OWNER TO postgres;
+
+--
+-- TOC entry 232 (class 1259 OID 32897)
+-- Name: experiencia_laboral_id_experiencia_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.experiencia_laboral_id_experiencia_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.experiencia_laboral_id_experiencia_seq OWNER TO postgres;
+
+--
+-- TOC entry 5134 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: experiencia_laboral_id_experiencia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.experiencia_laboral_id_experiencia_seq OWNED BY public.experiencia_laboral.id_experiencia;
+
+
+--
+-- TOC entry 231 (class 1259 OID 32880)
+-- Name: hoja_vida; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.hoja_vida (
+    id_hoja_vida integer NOT NULL,
+    id_empleado integer NOT NULL,
+    anos_experiencia integer DEFAULT 0,
+    fecha_creacion timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    foto_perfil text
+);
+
+
+ALTER TABLE public.hoja_vida OWNER TO postgres;
+
+--
+-- TOC entry 230 (class 1259 OID 32879)
+-- Name: hoja_vida_id_hoja_vida_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hoja_vida_id_hoja_vida_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.hoja_vida_id_hoja_vida_seq OWNER TO postgres;
+
+--
+-- TOC entry 5135 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: hoja_vida_id_hoja_vida_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.hoja_vida_id_hoja_vida_seq OWNED BY public.hoja_vida.id_hoja_vida;
+
+
+--
+-- TOC entry 220 (class 1259 OID 32774)
+-- Name: rol; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rol (
+    id_rol integer NOT NULL,
+    nombre_rol character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.rol OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 32773)
+-- Name: rol_id_rol_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.rol_id_rol_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.rol_id_rol_seq OWNER TO postgres;
+
+--
+-- TOC entry 5136 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: rol_id_rol_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.rol_id_rol_seq OWNED BY public.rol.id_rol;
+
+
+--
+-- TOC entry 225 (class 1259 OID 32832)
+-- Name: superadministrador; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.superadministrador (
+    id_usuario integer NOT NULL
+);
+
+
+ALTER TABLE public.superadministrador OWNER TO postgres;
+
+--
+-- TOC entry 237 (class 1259 OID 32933)
+-- Name: turno; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.turno (
+    id_turno integer NOT NULL,
+    id_empleado integer NOT NULL,
+    fecha date NOT NULL,
+    hora_inicio time without time zone NOT NULL,
+    hora_fin time without time zone NOT NULL,
+    estado character varying(30)
+);
+
+
+ALTER TABLE public.turno OWNER TO postgres;
+
+--
+-- TOC entry 236 (class 1259 OID 32932)
+-- Name: turno_id_turno_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.turno_id_turno_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.turno_id_turno_seq OWNER TO postgres;
+
+--
+-- TOC entry 5137 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: turno_id_turno_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.turno_id_turno_seq OWNED BY public.turno.id_turno;
+
+
+--
+-- TOC entry 222 (class 1259 OID 32785)
+-- Name: usuario; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.usuario (
+    id_usuario integer NOT NULL,
+    nombre character varying(100) NOT NULL,
+    apellido character varying(100) NOT NULL,
+    tipo_documento character varying(20) NOT NULL,
+    numero_documento character varying(20) NOT NULL,
+    fecha_nacimiento date,
+    sexo character varying(20),
+    genero character varying(30),
+    direccion character varying(200),
+    telefono character varying(20),
+    email character varying(150) NOT NULL,
+    contrasena character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.usuario OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 32784)
+-- Name: usuario_id_usuario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.usuario_id_usuario_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.usuario_id_usuario_seq OWNER TO postgres;
+
+--
+-- TOC entry 5138 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: usuario_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.usuario_id_usuario_seq OWNED BY public.usuario.id_usuario;
+
+
+--
+-- TOC entry 223 (class 1259 OID 32804)
+-- Name: usuario_rol; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.usuario_rol (
+    id_usuario integer NOT NULL,
+    id_rol integer NOT NULL
+);
+
+
+ALTER TABLE public.usuario_rol OWNER TO postgres;
+
+--
+-- TOC entry 4915 (class 2604 OID 32919)
+-- Name: calificacion id_calificacion; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calificacion ALTER COLUMN id_calificacion SET DEFAULT nextval('public.calificacion_id_calificacion_seq'::regclass);
+
+
+--
+-- TOC entry 4905 (class 2604 OID 32847)
+-- Name: empleado id_empleado; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.empleado ALTER COLUMN id_empleado SET DEFAULT nextval('public.empleado_id_empleado_seq'::regclass);
+
+
+--
+-- TOC entry 4908 (class 2604 OID 32865)
+-- Name: empleador id_empleador; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.empleador ALTER COLUMN id_empleador SET DEFAULT nextval('public.empleador_id_empleador_seq'::regclass);
+
+
+--
+-- TOC entry 4914 (class 2604 OID 32901)
+-- Name: experiencia_laboral id_experiencia; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.experiencia_laboral ALTER COLUMN id_experiencia SET DEFAULT nextval('public.experiencia_laboral_id_experiencia_seq'::regclass);
+
+
+--
+-- TOC entry 4911 (class 2604 OID 32883)
+-- Name: hoja_vida id_hoja_vida; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hoja_vida ALTER COLUMN id_hoja_vida SET DEFAULT nextval('public.hoja_vida_id_hoja_vida_seq'::regclass);
+
+
+--
+-- TOC entry 4903 (class 2604 OID 32777)
+-- Name: rol id_rol; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rol ALTER COLUMN id_rol SET DEFAULT nextval('public.rol_id_rol_seq'::regclass);
+
+
+--
+-- TOC entry 4917 (class 2604 OID 32936)
+-- Name: turno id_turno; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.turno ALTER COLUMN id_turno SET DEFAULT nextval('public.turno_id_turno_seq'::regclass);
+
+
+--
+-- TOC entry 4904 (class 2604 OID 32788)
+-- Name: usuario id_usuario; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuario ALTER COLUMN id_usuario SET DEFAULT nextval('public.usuario_id_usuario_seq'::regclass);
+
+
+--
+-- TOC entry 5112 (class 0 OID 32821)
+-- Dependencies: 224
+-- Data for Name: administrador; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.administrador (id_usuario) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5123 (class 0 OID 32916)
+-- Dependencies: 235
+-- Data for Name: calificacion; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.calificacion (id_calificacion, id_empleado, puntuacion, comentario, fecha) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5115 (class 0 OID 32844)
+-- Dependencies: 227
+-- Data for Name: empleado; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.empleado (id_empleado, id_usuario, fecha_registro, estado_cuenta) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5117 (class 0 OID 32862)
+-- Dependencies: 229
+-- Data for Name: empleador; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.empleador (id_empleador, id_usuario, fecha_registro, estado_cuenta) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5121 (class 0 OID 32898)
+-- Dependencies: 233
+-- Data for Name: experiencia_laboral; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.experiencia_laboral (id_experiencia, id_hoja_vida, empresa, cargo, fecha_inicio, fecha_fin, descripcion) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5119 (class 0 OID 32880)
+-- Dependencies: 231
+-- Data for Name: hoja_vida; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hoja_vida (id_hoja_vida, id_empleado, anos_experiencia, fecha_creacion, foto_perfil) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5108 (class 0 OID 32774)
+-- Dependencies: 220
+-- Data for Name: rol; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.rol (id_rol, nombre_rol) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5113 (class 0 OID 32832)
+-- Dependencies: 225
+-- Data for Name: superadministrador; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.superadministrador (id_usuario) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5125 (class 0 OID 32933)
+-- Dependencies: 237
+-- Data for Name: turno; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.turno (id_turno, id_empleado, fecha, hora_inicio, hora_fin, estado) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5110 (class 0 OID 32785)
+-- Dependencies: 222
+-- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.usuario (id_usuario, nombre, apellido, tipo_documento, numero_documento, fecha_nacimiento, sexo, genero, direccion, telefono, email, contrasena) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5111 (class 0 OID 32804)
+-- Dependencies: 223
+-- Data for Name: usuario_rol; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.usuario_rol (id_usuario, id_rol) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5139 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: calificacion_id_calificacion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.calificacion_id_calificacion_seq', 1, false);
+
+
+--
+-- TOC entry 5140 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: empleado_id_empleado_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.empleado_id_empleado_seq', 1, false);
+
+
+--
+-- TOC entry 5141 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: empleador_id_empleador_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.empleador_id_empleador_seq', 1, false);
+
+
+--
+-- TOC entry 5142 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: experiencia_laboral_id_experiencia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.experiencia_laboral_id_experiencia_seq', 1, false);
+
+
+--
+-- TOC entry 5143 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: hoja_vida_id_hoja_vida_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hoja_vida_id_hoja_vida_seq', 1, false);
+
+
+--
+-- TOC entry 5144 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: rol_id_rol_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.rol_id_rol_seq', 1, false);
+
+
+--
+-- TOC entry 5145 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: turno_id_turno_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.turno_id_turno_seq', 1, false);
+
+
+--
+-- TOC entry 5146 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: usuario_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.usuario_id_usuario_seq', 1, false);
+
+
+--
+-- TOC entry 4931 (class 2606 OID 32826)
+-- Name: administrador administrador_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.administrador
+    ADD CONSTRAINT administrador_pkey PRIMARY KEY (id_usuario);
+
+
+--
+-- TOC entry 4947 (class 2606 OID 32926)
+-- Name: calificacion calificacion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calificacion
+    ADD CONSTRAINT calificacion_pkey PRIMARY KEY (id_calificacion);
+
+
+--
+-- TOC entry 4935 (class 2606 OID 32855)
+-- Name: empleado empleado_id_usuario_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.empleado
+    ADD CONSTRAINT empleado_id_usuario_key UNIQUE (id_usuario);
+
+
+--
+-- TOC entry 4937 (class 2606 OID 32853)
+-- Name: empleado empleado_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.empleado
+    ADD CONSTRAINT empleado_pkey PRIMARY KEY (id_empleado);
+
+
+--
+-- TOC entry 4939 (class 2606 OID 32873)
+-- Name: empleador empleador_id_usuario_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.empleador
+    ADD CONSTRAINT empleador_id_usuario_key UNIQUE (id_usuario);
+
+
+--
+-- TOC entry 4941 (class 2606 OID 32871)
+-- Name: empleador empleador_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.empleador
+    ADD CONSTRAINT empleador_pkey PRIMARY KEY (id_empleador);
+
+
+--
+-- TOC entry 4945 (class 2606 OID 32909)
+-- Name: experiencia_laboral experiencia_laboral_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.experiencia_laboral
+    ADD CONSTRAINT experiencia_laboral_pkey PRIMARY KEY (id_experiencia);
+
+
+--
+-- TOC entry 4943 (class 2606 OID 32891)
+-- Name: hoja_vida hoja_vida_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hoja_vida
+    ADD CONSTRAINT hoja_vida_pkey PRIMARY KEY (id_hoja_vida);
+
+
+--
+-- TOC entry 4919 (class 2606 OID 32783)
+-- Name: rol rol_nombre_rol_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rol
+    ADD CONSTRAINT rol_nombre_rol_key UNIQUE (nombre_rol);
+
+
+--
+-- TOC entry 4921 (class 2606 OID 32781)
+-- Name: rol rol_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rol
+    ADD CONSTRAINT rol_pkey PRIMARY KEY (id_rol);
+
+
+--
+-- TOC entry 4933 (class 2606 OID 32837)
+-- Name: superadministrador superadministrador_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.superadministrador
+    ADD CONSTRAINT superadministrador_pkey PRIMARY KEY (id_usuario);
+
+
+--
+-- TOC entry 4949 (class 2606 OID 32943)
+-- Name: turno turno_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.turno
+    ADD CONSTRAINT turno_pkey PRIMARY KEY (id_turno);
+
+
+--
+-- TOC entry 4923 (class 2606 OID 32803)
+-- Name: usuario usuario_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuario
+    ADD CONSTRAINT usuario_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 4925 (class 2606 OID 32801)
+-- Name: usuario usuario_numero_documento_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuario
+    ADD CONSTRAINT usuario_numero_documento_key UNIQUE (numero_documento);
+
+
+--
+-- TOC entry 4927 (class 2606 OID 32799)
+-- Name: usuario usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuario
+    ADD CONSTRAINT usuario_pkey PRIMARY KEY (id_usuario);
+
+
+--
+-- TOC entry 4929 (class 2606 OID 32810)
+-- Name: usuario_rol usuario_rol_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuario_rol
+    ADD CONSTRAINT usuario_rol_pkey PRIMARY KEY (id_usuario, id_rol);
+
+
+--
+-- TOC entry 4952 (class 2606 OID 32827)
+-- Name: administrador fk_admin_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.administrador
+    ADD CONSTRAINT fk_admin_usuario FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4958 (class 2606 OID 32927)
+-- Name: calificacion fk_calificacion_empleado; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calificacion
+    ADD CONSTRAINT fk_calificacion_empleado FOREIGN KEY (id_empleado) REFERENCES public.empleado(id_empleado) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4954 (class 2606 OID 32856)
+-- Name: empleado fk_empleado_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.empleado
+    ADD CONSTRAINT fk_empleado_usuario FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4955 (class 2606 OID 32874)
+-- Name: empleador fk_empleador_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.empleador
+    ADD CONSTRAINT fk_empleador_usuario FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4957 (class 2606 OID 32910)
+-- Name: experiencia_laboral fk_experiencia_hoja_vida; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.experiencia_laboral
+    ADD CONSTRAINT fk_experiencia_hoja_vida FOREIGN KEY (id_hoja_vida) REFERENCES public.hoja_vida(id_hoja_vida) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4956 (class 2606 OID 32892)
+-- Name: hoja_vida fk_hoja_vida_empleado; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.hoja_vida
+    ADD CONSTRAINT fk_hoja_vida_empleado FOREIGN KEY (id_empleado) REFERENCES public.empleado(id_empleado) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4953 (class 2606 OID 32838)
+-- Name: superadministrador fk_superadmin_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.superadministrador
+    ADD CONSTRAINT fk_superadmin_usuario FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4959 (class 2606 OID 32944)
+-- Name: turno fk_turno_empleado; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.turno
+    ADD CONSTRAINT fk_turno_empleado FOREIGN KEY (id_empleado) REFERENCES public.empleado(id_empleado) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4950 (class 2606 OID 32816)
+-- Name: usuario_rol fk_usuario_rol_rol; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuario_rol
+    ADD CONSTRAINT fk_usuario_rol_rol FOREIGN KEY (id_rol) REFERENCES public.rol(id_rol) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4951 (class 2606 OID 32811)
+-- Name: usuario_rol fk_usuario_rol_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usuario_rol
+    ADD CONSTRAINT fk_usuario_rol_usuario FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE CASCADE;
+
+
+-- Completed on 2026-06-12 00:16:43
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict 1D3cgSvYVBiQ8O0qsvEdLyDYMO9PbwnrhLJAjVnfitTGzhK9TTdaB239rmXsoWy
+
