@@ -366,85 +366,142 @@ body::after {
         <div class="form-heading">Tus datos</div>
         <div class="form-sub">Paso 2 de 3 — Información personal.</div>
         <div id="regMsg" class="msg"></div>
-        <div class="field-row">
-          <div class="field">
-            <label>Nombre</label>
-            <div class="field-wrap">
-              <span class="field-icon"><i class="ti ti-user"></i></span>
-              <input type="text" id="regNombre" placeholder="Juan">
-            </div>
-          </div>
-          <div class="field">
-            <label>Apellido</label>
-            <div class="field-wrap">
-              <span class="field-icon"><i class="ti ti-user"></i></span>
-              <input type="text" id="regApellido" placeholder="Díaz">
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <label>Correo electrónico</label>
-          <div class="field-wrap">
-            <span class="field-icon"><i class="ti ti-mail"></i></span>
-            <input type="email" id="regEmail" placeholder="tu@correo.com">
-          </div>
-        </div>
-        <div class="field">
-          <label>Teléfono</label>
-          <div class="field-wrap">
-            <span class="field-icon"><i class="ti ti-phone"></i></span>
-            <input type="tel" id="regTel" placeholder="+57 300 000 0000">
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="btn-main btn-back" onclick="goStep(1)">Atrás</button>
-          <button class="btn-main" onclick="goStep(3)">Continuar</button>
-        </div>
-      </div>
 
-      <!-- Paso 3: Contraseña -->
-      <div id="step3" style="display:none">
-        <div class="step-dots">
-          <div class="dot active" id="d1c"></div>
-          <div class="dot active" id="d2c"></div>
-          <div class="dot active" id="d3c"></div>
-        </div>
-        <div class="form-heading">Crea tu contraseña</div>
-        <div class="form-sub">Paso 3 de 3 — Elige una contraseña segura.</div>
-        <div class="field">
-          <label>Contraseña</label>
-          <div class="field-wrap">
-            <span class="field-icon"><i class="ti ti-lock"></i></span>
-            <input type="password" id="regPwd" placeholder="Mín. 8 caracteres" oninput="checkStrength(this.value)">
-            <button class="eye-btn" onclick="togglePwd('regPwd', this)" type="button" aria-label="Mostrar">
-              <i class="ti ti-eye"></i>
-            </button>
-          </div>
-          <div class="strength" id="strengthRow" style="display:none">
-            <div class="strength-bar" id="sb1"></div>
-            <div class="strength-bar" id="sb2"></div>
-            <div class="strength-bar" id="sb3"></div>
-            <div class="strength-bar" id="sb4"></div>
-            <span class="strength-label" id="sLabel"></span>
-          </div>
-        </div>
-        <div class="field">
-          <label>Confirmar contraseña</label>
-          <div class="field-wrap">
-            <span class="field-icon"><i class="ti ti-lock-check"></i></span>
-            <input type="password" id="regPwd2" placeholder="Repite la contraseña">
-            <button class="eye-btn" onclick="togglePwd('regPwd2', this)" type="button" aria-label="Mostrar">
-              <i class="ti ti-eye"></i>
-            </button>
-          </div>
-        </div>
-        <div class="field">
-          <label>Ciudad</label>
-          <div class="field-wrap">
-            <span class="field-icon"><i class="ti ti-map-pin"></i></span>
-            <input type="text" id="regCiudad" placeholder="Bogotá">
-          </div>
-        </div>
+<div class="field-row">
+  <div class="field">
+    <label>Nombre</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-user"></i></span>
+      <input type="text" id="regNombre" placeholder="Juan">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Apellido</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-user"></i></span>
+      <input type="text" id="regApellido" placeholder="Pérez">
+    </div>
+  </div>
+</div>
+
+<div class="field-row">
+  <div class="field">
+    <label>Tipo de documento</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-id"></i></span>
+      <select id="regTipoDoc"
+        style="flex:1;border:none;outline:none;padding:10px;background:transparent;font-family:inherit;">
+        <option value="">Seleccione</option>
+        <option>Cédula de ciudadanía</option>
+        <option>Tarjeta de identidad</option>
+        <option>Cédula de extranjería</option>
+        <option>Pasaporte</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Número de documento</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-credit-card"></i></span>
+      <input type="text" id="regDocumento" placeholder="1023456789">
+    </div>
+  </div>
+</div>
+
+<div class="field-row">
+  <div class="field">
+    <label>Fecha de nacimiento</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-calendar"></i></span>
+      <input type="date" id="regFecha">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Género</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-user"></i></span>
+      <select id="regGenero"
+        style="flex:1;border:none;outline:none;padding:10px;background:transparent;font-family:inherit;">
+        <option value="">Seleccione</option>
+        <option>Masculino</option>
+        <option>Femenino</option>
+        <option>Otro</option>
+        <option>Prefiero no decirlo</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label>Correo electrónico</label>
+  <div class="field-wrap">
+    <span class="field-icon"><i class="ti ti-mail"></i></span>
+    <input type="email" id="regEmail" placeholder="tu@correo.com">
+  </div>
+</div>
+
+<div class="field-row">
+  <div class="field">
+    <label>Teléfono</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-phone"></i></span>
+      <input type="tel" id="regTel" placeholder="+57 300 000 0000">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Teléfono alternativo</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-phone"></i></span>
+      <input type="tel" id="regTel2" placeholder="+57 310 000 0000">
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label>Dirección</label>
+  <div class="field-wrap">
+    <span class="field-icon"><i class="ti ti-home"></i></span>
+    <input type="text" id="regDireccion" placeholder="Cra 12 #45-67">
+  </div>
+</div>
+
+<div class="field-row">
+  <div class="field">
+    <label>Barrio</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-map"></i></span>
+      <input type="text" id="regBarrio" placeholder="Kennedy">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Ciudad</label>
+    <div class="field-wrap">
+      <span class="field-icon"><i class="ti ti-map-pin"></i></span>
+      <input type="text" id="regCiudad" placeholder="Bogotá">
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label>Departamento</label>
+  <div class="field-wrap">
+    <span class="field-icon"><i class="ti ti-building"></i></span>
+    <input type="text" id="regDepartamento" placeholder="Cundinamarca">
+  </div>
+</div>
+
+<div class="field">
+  <label>Foto de perfil (opcional)</label>
+  <div class="field-wrap">
+    <span class="field-icon"><i class="ti ti-camera"></i></span>
+    <input type="file" id="regFoto" accept="image/*">
+  </div>
+</div>
         <div class="btn-row">
           <button class="btn-main btn-back" onclick="goStep(2)">Atrás</button>
           <button class="btn-main" onclick="doRegister()">Crear cuenta</button>
@@ -490,12 +547,25 @@ body::after {
       const nombre = document.getElementById('regNombre').value.trim();
       const email = document.getElementById('regEmail').value.trim();
       const msg = document.getElementById('regMsg');
-      if (!nombre || !email) {
-        msg.textContent = 'Por favor completa nombre y correo electrónico.';
-        msg.className = 'msg error';
-        msg.style.display = 'block';
-        return;
-      }
+      const documento = document.getElementById('regDocumento').value.trim();
+const telefono = document.getElementById('regTel').value.trim();
+const direccion = document.getElementById('regDireccion').value.trim();
+const ciudad = document.getElementById('regCiudad').value.trim();
+
+if (
+    !nombre ||
+    !email ||
+    !documento ||
+    !telefono ||
+    !direccion ||
+    !ciudad
+) {
+    msg.textContent =
+      'Por favor completa todos los campos obligatorios.';
+    msg.className = 'msg error';
+    msg.style.display = 'block';
+    return;
+}
       if (!/\S+@\S+\.\S+/.test(email)) {
         msg.textContent = 'Ingresa un correo electrónico válido.';
         msg.className = 'msg error';
